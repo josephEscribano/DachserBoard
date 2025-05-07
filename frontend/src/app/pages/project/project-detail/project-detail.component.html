@@ -1,0 +1,19 @@
+<section class="flex flex-col pb-4">
+  <header>
+    <h1>{{ projectData.name }}</h1>
+  </header>
+  <main>
+    @if (!(showLoading | async)) {
+    <div class="grid grid-cols-4 gap-4" cdkDropListGroup>
+      @for (column of columns; track $index) {
+      <app-project-board-column
+        [columnName]="column.name"
+        [columnStatus]="column.status"
+        [tasks]="filterTask(column.status)"
+        (onDrop)="drop($event)"
+      ></app-project-board-column>
+      }
+    </div>
+    }
+  </main>
+</section>

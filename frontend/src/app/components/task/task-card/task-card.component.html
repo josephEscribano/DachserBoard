@@ -1,0 +1,23 @@
+<mat-card
+  (click)="openTaskDetailDialog()"
+  class="hover:border-2 hover:border-stone-400"
+>
+  <mat-card-content>
+    <p class="cursor-pointer font-bold">{{ task().title }}</p>
+  </mat-card-content>
+  @if (task().assignedTo && task().assignedTo?.length! > 0) {
+  <mat-card-footer class="text-right place-content-end flex pr-2">
+    <mat-chip-set>
+      @for (user of task().assignedTo; track $index) {
+      <mat-chip>
+        @if (user.photoUrl) {
+        <img matChipAvatar [src]="user.photoUrl" />
+        } @if (!user.photoUrl) {
+        {{ getInitials(user) }}
+        }
+      </mat-chip>
+      }
+    </mat-chip-set>
+  </mat-card-footer>
+  }
+</mat-card>

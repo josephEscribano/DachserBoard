@@ -1,0 +1,47 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  @if (editModeTitle) {
+  <mat-form-field class="w-full p-3 pb-0">
+    <input matInput type="text" formControlName="title" />
+  </mat-form-field>
+  } @else {
+  <h2 mat-dialog-title (dblclick)="editModeTitle = !editModeTitle">
+    {{ task.title }}
+  </h2>
+  }
+  <mat-dialog-content class="mat-typography">
+    <h3 class="font-bold">{{ task.status }}</h3>
+    <h3 class="font-bold">Description</h3>
+    <mat-form-field class="w-full">
+      <textarea
+        matInput
+        placeholder="Write a description"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+    <h3 class="font-bold">Assigned to</h3>
+    <mat-chip-set>
+      @for (user of assignedUsers; track $index) {
+      <mat-chip
+        >{{ user.name }}
+        <button matChipRemove type="button" (click)="popUserAssigned(user)">
+          <mat-icon>cancel</mat-icon>
+        </button></mat-chip
+      >
+      }
+      <button mat-chip type="button" [matMenuTriggerFor]="menu">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        @for (user of users | async; track $index) {
+        <button mat-menu-item (click)="pushUserAssigned(user)">
+          {{ user.name }}
+        </button>
+        }
+      </mat-menu>
+    </mat-chip-set>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="submit" color="primary">Save</button>
+    <button mat-button color="primary" mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</form>

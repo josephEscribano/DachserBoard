@@ -1,0 +1,28 @@
+<mat-card
+  appearance="raised"
+  cdkDropList
+  [cdkDropListData]="tasks()"
+  (cdkDropListDropped)="onDrop.emit($event)"
+  [id]="columnStatus()"
+  [tabIndex]="2"
+>
+  <mat-card-header>
+    <mat-card-title>{{ columnName() }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    @for (task of tasks(); track $index) {
+    <app-task-card
+      cdkDrag
+      [cdkDragData]="task"
+      class="p-1"
+      [task]="task"
+    ></app-task-card>
+    }
+  </mat-card-content>
+  <mat-card-footer class="p-2">
+    <button mat-flat-button color="accent" (click)="openProjecCreateDialog()" class="w-full">
+      <mat-icon>task alt</mat-icon>
+      Add task
+    </button>
+  </mat-card-footer>
+</mat-card>
